@@ -5,7 +5,6 @@ import "./Analytics.css"
 interface ReportData {
   date: string;
   app_id: number;
-  app_name: string;
   requests: number;
   responses: number;
   impressions: number;
@@ -47,6 +46,18 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const formatNumber = (num: number) => {
+    return num.toLocaleString('en-US');
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('en-US');
+  };
+
+  const formatPercentage = (num: number) => {
+    return `${num.toFixed(2)}%`;
   };
 
   return (
@@ -98,17 +109,17 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
           </thead>
           <tbody>
             {reportData.map((data) => (
-              <tr key={data.date}>
-                <td>{data.date}</td>
-                <td>{data.app_id}</td>
-                <td>{data.requests}</td>
-                <td>{data.responses}</td>
-                <td>{data.impressions}</td>
-                <td>{data.clicks}</td>
-                <td>{data.revenue}</td>
-                <td>{`${((data.requests / data.responses) * 100).toFixed(2)}%`}</td>
-               <td>{`${data.impressions ? ((data.clicks / data.impressions) * 100).toFixed(2) : 0}%`}</td>
-              </tr>
+          <tr key={data.date}>
+          <td>{formatDate(data.date)}</td>
+          <td>{data.app_id}</td>
+          <td>{formatNumber(data.requests)}</td>
+          <td>{formatNumber(data.responses)}</td>
+          <td>{formatNumber(data.impressions)}</td>
+          <td>{formatNumber(data.clicks)}</td>
+          <td>{formatNumber(data.revenue)}</td>
+          <td>{formatPercentage((data.requests / data.responses) * 100)}</td>
+          <td>{formatPercentage(data.impressions ? (data.clicks / data.impressions) * 100 : 0)}</td>
+          </tr>
             ))}
           </tbody>
         </table>

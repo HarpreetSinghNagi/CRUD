@@ -79,3 +79,22 @@
     background-color: #ddd;
   }
   
+  /* Media query for smaller screens */
+  @media only screen and (max-width: 600px) {
+    .analytics-date-range-picker-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .analytics-date-range-picker {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+    
+    .analytics-table th,
+    .analytics-table td {
+      font-size: 0.8rem;
+      padding: 0.25rem;
+    }
+  }
+  
