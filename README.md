@@ -1,46 +1,19 @@
-# Getting Started with Create React App
+* Create an Analytics page that includes a Date Picker component that allows the user to select a date range. When the user selects a date range, make a REST API call to fetch the data for the selected date range.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+* Create a Reusable Analytics Table Component that displays the data fetched from the API endpoint. Allow the user to enable or disable a particular column from view by creating a checkbox for each column. When the user toggles a checkbox, hide or show the corresponding column in the table. Also, allow the user to reorder the columns by dragging and dropping them.
 
-## Available Scripts
+* Implement data formatting for each cell in the table to make it easier to read.
 
-In the project directory, you can run:
+* Implement sorting and filtering for the table by adding sorting and filtering options for each column. When the user clicks on a column header, sort the data in ascending or descending order. When the user enters a search term in the filter field, filter the data based on the search term.
 
-### `yarn start`
+* Make the table responsive by implementing CSS media queries.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Optionally, implement a reusable data cache layer to avoid calling the API again if the data has been queried recently. Also, create a shareable table link that populates the table with all filters and columns.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* Use React and Redux to build the table component and manage the state of the table. Use best practices and write clean code to ensure the quality of your code.
 
-### `yarn test`
+* Minimize the use of third-party libraries for other components to keep the project lightweight.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* The table columns should include Date, App Name, AD Request, AD Response, Impression, Clicks, Revenue, Fill Rate, and CTR.
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Use the provided API to fetch the data for the table. Use the Get All report by date API endpoint to fetch data for a selected date range and the Get All apps API endpoint to get the list of all apps.
