@@ -2,17 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./Analytics.css"
-interface ReportData {
-  date: string;
-  app_id: number;
-  requests: number;
-  responses: number;
-  impressions: number;
-  clicks: number;
-  revenue: number;
-  fill_rate: number;
-  ctr: number;
-}
+import ReportTable from './ReportTable';
+import { fetchReportData, ReportData } from './api';
 
 interface AnalyticsProps {
   apiUrl: string;
@@ -23,6 +14,7 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [reportData, setReportData] = useState<ReportData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const fetchData = async () => {
     if (!startDate || !endDate) {
@@ -35,12 +27,9 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
     const endDateString = endDate.toISOString().slice(0, 10);
 
     try {
-      const response = await fetch(
-        `${apiUrl}/dummy/report?startDate=${startDateString}&endDate=${endDateString}`
-      );
-      const data = await response.json();
+      const data = await fetchReportData(apiUrl, startDateString, endDateString);
       console.log(data);
-      setReportData(data.data);
+      setReportData(data);
     } catch (error) {
       console.error('Error fetching report data', error);
     } finally {
@@ -48,16 +37,27 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
     }
   };
 
-  const formatNumber = (num: number) => {
-    return num.toLocaleString('en-IN');
-  };
+  const toggleSettingsModal = () => {
+    setShowSettingsModal(!showSettingsModal);
+  }
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-IN');
-  };
-
-  const formatPercentage = (num: number) => {
-    return `${num.toFixed(2)}%`;
+  const renderSettingsModal = () => {
+    return (
+      <div className='analytics-settings-modal'>
+        <div className='analytics-settings-modal-header'>
+          <span>Column Settings</span>
+          <button className='analytics-settings-modal-close' onClick={toggleSettingsModal}>X</button>
+        </div>
+        <div className='analytics-settings-modal-content'>
+          {reportData.length > 0 && Object.keys(reportData[0]).map((key) => (
+            <div key={key} className='analytics-settings-modal-item'>
+              <input type='checkbox' id={key} defaultChecked />
+              <label htmlFor={key}>{key}</label>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -65,67 +65,47 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
       <h1 className='analytics-title'>Analytics</h1>
       <div className='analytics-date-range-picker-container'>
 
-    <div className='analytics-date-range-picker'>
-      <label className='analytics-date-range-picker-label' htmlFor="start-date-picker">Start Date</label>
-        <DatePicker 
-          id="start-date-picker"
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-        />
-        </div>
         <div className='analytics-date-range-picker'>
-        <label className='analytics-date-range-picker-label' htmlFor="end-date-picker">End Date</label>
-        <DatePicker  className='analytics-date-range-picker'
-          id="end-date-picker"
-          selected={endDate}
-          onChange={(date: Date) => setEndDate(date)}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={startDate}
-        />
+          <label className='analytics-date-range-picker-label' htmlFor="start-date-picker">Start Date</label>
+          <DatePicker 
+            id="start-date-picker"
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+          />
         </div>
+
+        <div className='analytics-date-range-picker'>
+          <label className='analytics-date-range-picker-label' htmlFor="end-date-picker">End Date</label>
+          <DatePicker  className='analytics-date-range-picker'
+            id="end-date-picker"
+            selected={endDate}
+            onChange={(date: Date) => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={startDate}
+          />
+        </div>
+
       </div>
-      <button className='analytics-button  analytics-button:hover' onClick={fetchData}>Fetch Data</button>
+
+      <div className='analytics-buttons-container'>
+        <button className='analytics-button analytics-button-fetch-data' onClick={fetchData}>Fetch Data</button>
+        <button className='analytics-button analytics-button-settings' onClick={toggleSettingsModal}>Settings</button>
+      </div>
+
       {isLoading && <div className='analytics-loading'>Loading...</div>}
-     {!isLoading && reportData.length === 0 && <div className='analytics-no-data'>No data to display</div>}
-       {!isLoading && reportData.length > 0 && (
-        <table className='analytics-table'>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>App Name</th>
-              <th>AD Request</th>
-              <th>AD Response</th>
-              <th>Impression</th>
-              <th>Clicks</th>
-              <th>Revenue</th>
-              <th>Fill Rate</th>
-              <th>CTR</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reportData.map((data) => (
-          <tr key={data.date}>
-          <td>{formatDate(data.date)}</td>
-          <td>{data.app_id}</td>
-          <td>{formatNumber(data.requests)}</td>
-          <td>{formatNumber(data.responses)}</td>
-          <td>{formatNumber(data.impressions)}</td>
-          <td>{formatNumber(data.clicks)}</td>
-          <td>{formatNumber(data.revenue)}</td>
-          <td>{formatPercentage((data.requests / data.responses) * 100)}</td>
-          <td>{formatPercentage(data.impressions ? (data.clicks / data.impressions) * 100 : 0)}</td>
-          </tr>
-            ))}
-          </tbody>
-        </table>
-      )}  
-    </div>
-  );
+      {showSettingsModal && renderSettingsModal()}
+      {!isLoading && reportData.length > 0 ? (
+        <ReportTable reportData={reportData} />) : (
+          <div className='analytics-placeholder'>No data to display</div>
+                )}
+    
+      </div>
+);
 };
 
 export default Analytics;
