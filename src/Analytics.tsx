@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import styled from "styled-components";
-
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import "./Analytics.css"
 interface ReportData {
   date: string;
   app_id: number;
   app_name: string;
   requests: number;
   responses: number;
-  impression: number;
+  impressions: number;
   clicks: number;
   revenue: number;
   fill_rate: number;
@@ -44,47 +43,46 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
       console.log(data);
       setReportData(data.data);
     } catch (error) {
-      console.error("Error fetching report data", error);
+      console.error('Error fetching report data', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Container>
-      <Title>Analytics</Title>
-      <DateRangePickerContainer>
-        <DateRangePicker>
-          <Label htmlFor="start-date-picker">Start Date:</Label>
-          <DatePicker
-            id="start-date-picker"
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-          />
-        </DateRangePicker>
-        <DateRangePicker>
-          <Label htmlFor="end-date-picker">End Date:</Label>
-          <DatePicker
-            id="end-date-picker"
-            selected={endDate}
-            onChange={(date: Date) => setEndDate(date)}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
-          />
-        </DateRangePicker>
-        <Button onClick={fetchData}>Fetch Data</Button>
-      </DateRangePickerContainer>
-      {isLoading && <Loading>Loading...</Loading>}
-      {!isLoading && reportData.length === 0 && (
-        <NoData>No data to display</NoData>
-      )}
-      {!isLoading && reportData.length > 0 && (
-        <Table>
+    <div className='analytics-container'>
+      <h1 className='analytics-title'>Analytics</h1>
+      <div className='analytics-date-range-picker-container'>
+
+    <div className='analytics-date-range-picker'>
+      <label className='analytics-date-range-picker-label' htmlFor="start-date-picker">Start Date</label>
+        <DatePicker 
+          id="start-date-picker"
+          selected={startDate}
+          onChange={(date: Date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+        />
+        </div>
+        <div className='analytics-date-range-picker'>
+        <label className='analytics-date-range-picker-label' htmlFor="end-date-picker">End Date</label>
+        <DatePicker  className='analytics-date-range-picker'
+          id="end-date-picker"
+          selected={endDate}
+          onChange={(date: Date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+        />
+        </div>
+      </div>
+      <button className='analytics-button  analytics-button:hover' onClick={fetchData}>Fetch Data</button>
+      {isLoading && <div className='analytics-loading'>Loading...</div>}
+     {!isLoading && reportData.length === 0 && <div className='analytics-no-data'>No data to display</div>}
+       {!isLoading && reportData.length > 0 && (
+        <table className='analytics-table'>
           <thead>
             <tr>
               <th>Date</th>
@@ -105,75 +103,18 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
                 <td>{data.app_id}</td>
                 <td>{data.requests}</td>
                 <td>{data.responses}</td>
-                <td>{data.impression}</td>
+                <td>{data.impressions}</td>
                 <td>{data.clicks}</td>
                 <td>{data.revenue}</td>
-                <td>{`${((data.requests / data.responses) * 100).toFixed(
-                  2
-                )}%`}</td>
-                <td>{`${((data.clicks / data.impression) * 100).toFixed(
-                  2
-                )}%`}</td>
+                <td>{`${((data.requests / data.responses) * 100).toFixed(2)}%`}</td>
+               <td>{`${data.impressions ? ((data.clicks / data.impressions) * 100).toFixed(2) : 0}%`}</td>
               </tr>
             ))}
           </tbody>
-        </Table>
-      )}
-    </Container>
+        </table>
+      )}  
+    </div>
   );
 };
-
-const Container = styled.div`display: flex; flex-direction: column; align-items: center; padding: 2rem;`;
-
-const Title = styled.h1`font-size: 2rem; margin-bottom: 2rem;`;
-
-const DateRangePickerContainer = styled.div`display: flex; align-items: center; margin-bottom: 2rem;`;
-
-const DateRangePicker = styled.div`display: flex; flex-direction: column; align-items: flex-start; margin-right: 2rem`;
-
-const Label = styled.label`margin-bottom: 0.5rem`;
-
-const Button = styled.button`
-background-color: #1976d2;
-color: #fff;
-border: none;
-border-radius: 0.25rem;
-padding: 0.5rem 1rem;
-cursor: pointer;
-transition: background-color 0.2s ease-in-out;
-
-&:hover {
-background-color: #1565c0;
-}
-`;
-
-const Loading = styled.div`font-size: 1.5rem; font-weight: bold; margin-bottom: 2rem;`;
-
-const NoData = styled.div`font-size: 1.5rem; font-weight: bold; margin-bottom: 2rem;`;
-
-const Table = styled.table`
-width: 100%;
-border-collapse: collapse;
-
-th,
-td {
-text-align: left;
-padding: 0.5rem;
-border: 1px solid #ddd;
-}
-
-th {
-font-weight: bold;
-background-color: #f2f2f2;
-}
-
-tr:nth-child(even) {
-background-color: #f2f2f2;
-}
-
-tr:hover {
-background-color: #ddd;
-}
-`;
 
 export default Analytics;
