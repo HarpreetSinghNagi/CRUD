@@ -49,11 +49,11 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
   };
 
   const formatNumber = (num: number) => {
-    return num.toLocaleString('en-US');
+    return num.toLocaleString('en-IN');
   };
 
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US');
+    return new Date(date).toLocaleDateString('en-IN');
   };
 
   const formatPercentage = (num: number) => {
