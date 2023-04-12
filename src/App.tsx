@@ -1,12 +1,11 @@
 import React from 'react';
+import Analytics from "./Analytics"
 
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-       <h1>Hello</h1>
-      </header>
+      <Analytics apiUrl='http://go-dev.greedygame.com/v3'/>
     </div>
   );
 }
