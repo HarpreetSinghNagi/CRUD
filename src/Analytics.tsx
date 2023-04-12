@@ -9,12 +9,20 @@ interface AnalyticsProps {
   apiUrl: string;
 }
 
+interface SettingsModalProps {
+  selectedColumns: string[];
+  setSelectedColumns: React.Dispatch<React.SetStateAction<string[]>>;
+  reportData: ReportData[];
+ 
+}
+
 const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [reportData, setReportData] = useState<ReportData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
 
   const fetchData = async () => {
     if (!startDate || !endDate) {
@@ -41,7 +49,26 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
     setShowSettingsModal(!showSettingsModal);
   }
 
-  const renderSettingsModal = () => {
+  const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelectedColumns, reportData }) => {
+    const [updatedSelectedColumns, setUpdatedSelectedColumns] = useState(selectedColumns);
+  
+    const handleColumnToggle = (column: string) => {
+      setUpdatedSelectedColumns(prevSelectedColumns => {
+        if (prevSelectedColumns.includes(column)) {
+          return prevSelectedColumns.filter(col => col !== column);
+        } else {
+          return [...prevSelectedColumns, column];
+        }
+      });
+    };
+  
+    
+  
+    const handleApplyChanges = () => {
+      setSelectedColumns(updatedSelectedColumns);
+      toggleSettingsModal();
+    };
+  
     return (
       <div className='analytics-settings-modal'>
         <div className='analytics-settings-modal-header'>
@@ -51,14 +78,20 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
         <div className='analytics-settings-modal-content'>
           {reportData.length > 0 && Object.keys(reportData[0]).map((key) => (
             <div key={key} className='analytics-settings-modal-item'>
-              <input type='checkbox' id={key} defaultChecked />
+              <input type='checkbox' id={key} checked={updatedSelectedColumns.includes(key)} onChange={() => handleColumnToggle(key)} />
               <label htmlFor={key}>{key}</label>
             </div>
           ))}
+          <div className='analytics-settings-modal-footer'>
+          <button className='analytics-button analytics-button-apply' onClick={handleApplyChanges}>Apply Changes</button>
         </div>
-      </div>
+        </div>
+        
+ </div>
     );
   };
+  
+
 
   return (
     <div className='analytics-container'>
@@ -94,18 +127,25 @@ const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
 
       <div className='analytics-buttons-container'>
         <button className='analytics-button analytics-button-fetch-data' onClick={fetchData}>Fetch Data</button>
-        <button className='analytics-button analytics-button-settings' onClick={toggleSettingsModal}>Settings</button>
+        {reportData.length > 0 ? ( <button className='analytics-button analytics-button-settings' onClick={toggleSettingsModal} disabled={isLoading || reportData.length === 0}>
+   Settings
+  </button>) : null}
+        
       </div>
 
       {isLoading && <div className='analytics-loading'>Loading...</div>}
-      {showSettingsModal && renderSettingsModal()}
-      {!isLoading && reportData.length > 0 ? (
-        <ReportTable reportData={reportData} />) : (
-          <div className='analytics-placeholder'>No data to display</div>
-                )}
-    
-      </div>
+      {showSettingsModal &&  <SettingsModal 
+          selectedColumns={selectedColumns}
+          setSelectedColumns={setSelectedColumns}
+          reportData={reportData}   />}
+      {!isLoading&& reportData.length > 0 ? (
+<ReportTable reportData={reportData} selectedColumns={selectedColumns} />
+) : (
+<div className='analytics-placeholder'>No data to display</div>
+)}
+  
+</div>
 );
 };
 
-export default Analytics;
+export default Analytics

@@ -1,13 +1,7 @@
 export interface ReportData {
     date: string;
     app_id: number;
-    requests: number;
-    responses: number;
-    impressions: number;
-    clicks: number;
-    revenue: number;
-    fill_rate: number;
-    ctr: number;
+    [key: string]: any;
   }
 
 
