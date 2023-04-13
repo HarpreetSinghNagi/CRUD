@@ -60,11 +60,19 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
       <div className='analytics-settings-modal-content'>
         <div className='analytics-settings-modal-selected-columns'>
           {updatedSelectedColumns.map((column) => (
-            <div key={column}>
+            <div
+              key={column}
+              className='analytics-settings-modal-selected-column'
+              draggable
+              onDragStart={e => handleDragStart(e, column)}
+              onDragOver={handleDragOver}
+              onDrop={e => handleDrop(e, column)}
+            >
               <label>
                 <input
                   type='checkbox'
                   checked={showColumns[column]}
+                  disabled={column === "date" || column === "app_id"}
                   onChange={() => handleToggleColumn(column)}
                 />
                 {column}
@@ -72,31 +80,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
             </div>
           ))}
         </div>
-        <div className='analytics-settings-modal-preview'>
-          <table>
-            <thead>
-              <tr>
-                {updatedSelectedColumns.filter((column) => showColumns[column].map((column) => (
-<th key={column}>{column}</th>
-))}
-</tr>
-</thead>
-<tbody>
-{reportData.map((row, rowIndex) => (
-<tr key={rowIndex}>
-{updatedSelectedColumns.filter((column) => showColumns[column]).map((column, columnIndex) => (
-<td key={columnIndex}>{row[column]}</td>
-))}
-</tr>
-))}
-</tbody>
-</table>
-</div>
-<button className='analytics-button analytics-button-apply' onClick={handleApplyChanges}>
-Apply
-</button>
-</div>
-);
+        <button className='analytics-button analytics-button-apply' onClick={handleApplyChanges}>
+          Apply
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default SettingsModal;
