@@ -9,9 +9,9 @@ interface SettingsModalProps {
   toggleSettingsModal: () => void;
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelectedColumns, toggleSettingsModal }) => {
-  const [showColumns, setShowColumns] = useState<{[key: string]: boolean}>(() => {
-    const initialShowColumns: {[key: string]: boolean} = {};
+const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelectedColumns, reportData, toggleSettingsModal }) => {
+  const [showColumns, setShowColumns] = useState<{ [key: string]: boolean }>(() => {
+    const initialShowColumns: { [key: string]: boolean } = {};
     selectedColumns.forEach((column) => {
       initialShowColumns[column] = true;
     });
@@ -52,13 +52,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
       ...showColumns,
       [column]: checked,
     });
+  
+    if (checked && !updatedSelectedColumns.includes(column)) {
+      setUpdatedSelectedColumns([...updatedSelectedColumns, column]);
+    } else if (!checked) {
+      setUpdatedSelectedColumns(updatedSelectedColumns.filter((col) => col !== column));
+    }
   };
 
   return (
     <div className='analytics-settings-modal'>
       <div className='analytics-settings-modal-header'>
         <span>Settings</span>
-        <button className='analytics-settings-modal-close' onClick={toggleSettingsModal}>X</button>
+        <button className='analytics-settings-modal-close' onClick={toggleSettingsModal}>
+          X
+        </button>
       </div>
       <div className='analytics-settings-modal-content'>
         <div className='analytics-settings-modal-selected-columns'>
@@ -67,28 +75,48 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
               key={column}
               className='analytics-settings-modal-selected-column'
               draggable
-              onDragStart={e => handleDragStart(e, column)}
+              onDragStart={(e) => handleDragStart(e, column)}
               onDragOver={handleDragOver}
-              onDrop={e => handleDrop(e, column)}
+              onDrop={(e) => handleDrop(e, column)}
             >
               <label>
                 <input
-                  type='checkbox'
-                  checked={showColumns[column]}
-                  disabled={column === "date" || column === "app_name"}
-                  onChange={(e) => handleToggleColumn(column, e.target.checked)}
-                />
-               {getHeading(column)}
-              </label>
-            </div>
-          ))}
+              type='checkbox'
+              checked={showColumns[column]}
+              onChange={(e) => handleToggleColumn(column, e.target.checked)}
+              disabled={ column === "app_name" || column === "date"}
+            />
+            {getHeading(column)}
+          </label>
         </div>
-        <button className='analytics-button analytics-button-apply' onClick={handleApplyChanges}>
-          Apply
-        </button>
-      </div>
+      ))}
     </div>
-  );
+    <div className='analytics-settings-modal-available-columns'>
+      {Object.keys(reportData[0]).map((column) => {
+        if (column === 'app_id' || updatedSelectedColumns.includes(column)) {
+          return null;
+        }
+        return (
+          <div key={column} className='analytics-settings-modal-available-column'>
+            <label>
+              <input
+                type='checkbox'
+                checked={showColumns[column] ?? false}
+                onChange={(e) => handleToggleColumn(column, e.target.checked)}
+              />
+              {getHeading(column)}
+            </label>
+          </div>
+        );
+      })}
+    </div>
+    <button className='analytics-settings-modal-save-button' onClick={handleApplyChanges}>
+      Save Changes
+    </button>
+  </div>
+
+</div>
+);
 };
 
 export default SettingsModal;
