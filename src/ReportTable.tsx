@@ -13,7 +13,7 @@ interface ReportTableProps {
     switch (column) {
       case 'date':
         return 'Date';
-      case 'app_id':
+      case 'app_name':
         return 'App Name';
       case 'requests':
         return 'Ad Requests';

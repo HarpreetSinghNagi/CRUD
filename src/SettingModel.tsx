@@ -21,7 +21,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
   const [draggedColumn, setDraggedColumn] = useState<string | null>(null);
 
   const handleApplyChanges = () => {
-    setSelectedColumns(updatedSelectedColumns.filter((column) => showColumns[column]));
+    const filteredSelectedColumns = updatedSelectedColumns.filter((column) => showColumns[column]);
+    setSelectedColumns(filteredSelectedColumns);
+    setUpdatedSelectedColumns(filteredSelectedColumns);
     toggleSettingsModal();
   };
 
@@ -45,10 +47,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
     setUpdatedSelectedColumns(updatedColumns);
   };
 
-  const handleToggleColumn = (column: string) => {
+  const handleToggleColumn = (column: string, checked: boolean) => {
     setShowColumns({
       ...showColumns,
-      [column]: !showColumns[column],
+      [column]: checked,
     });
   };
 
@@ -73,8 +75,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
                 <input
                   type='checkbox'
                   checked={showColumns[column]}
-                  disabled={column === "date" || column === "app_id"}
-                  onChange={() => handleToggleColumn(column)}
+                  disabled={column === "date" || column === "app_name"}
+                  onChange={(e) => handleToggleColumn(column, e.target.checked)}
                 />
                {getHeading(column)}
               </label>
