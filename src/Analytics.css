@@ -22,6 +22,7 @@
     border-width: 0px;
     border-color: #CCCCCC;
     background-color: #FFFFFF;
+    text-align: center;
     color: #000000;
     border-style: solid;
     border-radius: 50px;
@@ -146,7 +147,14 @@
     width: 10%;
   }
 
+  .analytics-table-container {
+    overflow-x: auto;
+  }
 
+  .analytics-table {
+    width: 100%;
+  }
+  
   .analytics-settings-modal-item input[type="checkbox"] {
     margin-right: 10px;
     }
@@ -244,5 +252,29 @@
       font-size: 0.8rem;
       padding: 0.25rem;
     }
+
+    .analytics-container {
+      width: 131%;
+  }
+  .analytics-button-fetch-data {
+    background-color: #3498db;
+    color: #fff;
+    margin-right: 0px;
+}
+
+.analytics-button {
+  padding: 5px 10px;
+  
+}
+.analytics-input {
+  padding: 2px;
+  font-size: 13px;
+ }
+ .analytics-icon {
+  width: 20%;
+}
+.analytics-settings-modal-header {
+  width: 50%;
+}
   }
   
