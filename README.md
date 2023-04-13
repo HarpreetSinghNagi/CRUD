@@ -1,19 +1,46 @@
-* Create an Analytics page that includes a Date Picker component that allows the user to select a date range. When the user selects a date range, make a REST API call to fetch the data for the selected date range.
+# Analytics Dashboard
 
-* Create a Reusable Analytics Table Component that displays the data fetched from the API endpoint. Allow the user to enable or disable a particular column from view by creating a checkbox for each column. When the user toggles a checkbox, hide or show the corresponding column in the table. Also, allow the user to reorder the columns by dragging and dropping them.
+This project is a React-based analytics dashboard that displays ad campaign data. The dashboard includes a table that allows users to customize which columns of data are displayed and drag-and-drop column ordering.
 
-* Implement data formatting for each cell in the table to make it easier to read.
+## Technologies Used
+* React.js
+* TypeScript
+* CSS
 
-* Implement sorting and filtering for the table by adding sorting and filtering options for each column. When the user clicks on a column header, sort the data in ascending or descending order. When the user enters a search term in the filter field, filter the data based on the search term.
+### Getting Started
+To get started with this project, follow these steps:
 
-* Make the table responsive by implementing CSS media queries.
+Clone the repo: git clone https://github.com/your_username/your_project.git .
 
-* Optionally, implement a reusable data cache layer to avoid calling the API again if the data has been queried recently. Also, create a shareable table link that populates the table with all filters and columns.
+* Install dependencies: `yarn install`
+* Run the app: `yarn start`
 
-* Use React and Redux to build the table component and manage the state of the table. Use best practices and write clean code to ensure the quality of your code.
+## Components
 
-* Minimize the use of third-party libraries for other components to keep the project lightweight.
+### ReportTable
+The ReportTable component displays the ad campaign data in a table format. It receives two props:
 
-* The table columns should include Date, App Name, AD Request, AD Response, Impression, Clicks, Revenue, Fill Rate, and CTR.
+reportData (array of objects): The data to display in the table.
+selectedColumns (array of strings): The columns of data to display.
 
-* Use the provided API to fetch the data for the table. Use the Get All report by date API endpoint to fetch data for a selected date range and the Get All apps API endpoint to get the list of all apps.
+### SettingsModal
+The SettingsModal component allows users to customize the table by selecting which columns to display and changing the order of columns. It receives three props:
+selectedColumns (array of strings): The columns of data currently displayed in the table.
+setSelectedColumns (function): A function to update the selectedColumns state.
+reportData (array of objects): The data to display in the table.
+toggleSettingsModal (function): A function to close the settings modal.
+
+## Available Scripts
+In the project directory, you can run:
+
+yarn start
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.
+
+The page will reload if you make edits.
+You will also see any lint errors in the console.
+
+yarn test
+Launches the test runner in the interactive watch mode.
+See the section about running tests for more information.
+
