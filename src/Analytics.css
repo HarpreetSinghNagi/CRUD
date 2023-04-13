@@ -159,18 +159,10 @@
     cursor: pointer;
     background-color: #3498db;
     color: #fff;
+    margin-top: 5px ;
     }
     
-    .analytics-settings-modal-cancel-button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #e74c3c;
-    color: #fff;
-    margin-left: 10px;
-    }
+   
     
     @media only screen and (max-width: 768px) {
     .analytics-title {
