@@ -44,6 +44,10 @@
     margin-bottom: 5px;
     font-size: 1.2rem;
   }
+
+  .analytics-input-checkbox{
+    border-radius: 100%;
+  }
   
   .analytics-buttons-container {
     display: flex;
@@ -58,8 +62,19 @@
     border-radius: 5px;
     cursor: pointer;
   }
+
   
-  .analytics-button-fetch-data {
+  .analytics-settings-modal-selected-column {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+  }
+  
+ .analytics-button-fetch-data {
     background-color: #3498db;
     color: #fff;
     margin-right: 10px;

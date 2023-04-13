@@ -1,17 +1,35 @@
 export interface ReportData {
-    date: string;
-    app_id: number;
-    [key: string]: any;
-  }
-
+  date: string;
+  app_name: string;
+  requests: number;
+  responses: number;
+  impressions: number;
+  clicks: number;
+  revenue: number;
+  fill_rate: string;
+  ctr: string;
+  [key: string]: any;
+}
 
   export const fetchReportData = async (apiUrl: string, startDate: string, endDate: string): Promise<ReportData[]> => {
     const response = await fetch(
       `${apiUrl}/dummy/report?startDate=${startDate}&endDate=${endDate}`
     );
+    const appResponse = await fetch(`http://go-dev.greedygame.com/v3/dummy/apps`);
+    const appData = await appResponse.json();
+    const appMap = appData.data.reduce((acc: {[key: number]: string}, curr: any) => {
+      acc[curr.app_id] = curr.app_name;
+      return acc;
+    }, {})
     const data = await response.json();
-    return data.data;
-    };
+    const result = data.data.map((item: ReportData) => {
+      const appName = appMap[item.app_id] || 'Unknown';
+      return {...item, app_name: appName};
+      
+    });
+    console.log(result);
+    return result;
+  };
     
     export const formatNumber = (num: number) => {
     return num.toLocaleString('en-IN');
