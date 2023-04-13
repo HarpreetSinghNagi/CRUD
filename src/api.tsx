@@ -1,9 +1,15 @@
 export interface ReportData {
-    date: string;
-    app_id: number;
-    [key: string]: any;
-  }
-
+  date: string;
+  app_id: number;
+  requests: number;
+  responses: number;
+  impressions: number;
+  clicks: number;
+  revenue: number;
+  fill_rate: string;
+  ctr: string;
+  [key: string]: any;
+}
 
   export const fetchReportData = async (apiUrl: string, startDate: string, endDate: string): Promise<ReportData[]> => {
     const response = await fetch(

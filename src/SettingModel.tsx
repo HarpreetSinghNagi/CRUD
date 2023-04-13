@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ReportData } from './api';
+import { getHeading } from './ReportTable';
 
 interface SettingsModalProps {
   selectedColumns: string[];
@@ -8,7 +9,7 @@ interface SettingsModalProps {
   toggleSettingsModal: () => void;
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelectedColumns, reportData, toggleSettingsModal }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelectedColumns, toggleSettingsModal }) => {
   const [showColumns, setShowColumns] = useState<{[key: string]: boolean}>(() => {
     const initialShowColumns: {[key: string]: boolean} = {};
     selectedColumns.forEach((column) => {
@@ -75,7 +76,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ selectedColumns, setSelec
                   disabled={column === "date" || column === "app_id"}
                   onChange={() => handleToggleColumn(column)}
                 />
-                {column}
+               {getHeading(column)}
               </label>
             </div>
           ))}

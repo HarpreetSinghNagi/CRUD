@@ -5,14 +5,43 @@ interface ReportTableProps {
     reportData: ReportData[];
     selectedColumns: string[];
   }
+
+ export  const getHeading = (column: string) => {
+  if (column === "Unchecked") {
+    return "";
+  }
+    switch (column) {
+      case 'date':
+        return 'Date';
+      case 'app_id':
+        return 'App Name';
+      case 'requests':
+        return 'Ad Requests';
+      case 'responses':
+        return 'Ad Responses';
+      case 'impressions':
+        return 'Impressions';
+      case 'clicks':
+        return 'Clicks';
+      case 'revenue':
+        return 'Revenue';
+      case 'fillRate':
+        return 'Fill Rate';
+      case 'ctr':
+        return 'CTR';
+      default:
+        return column.toUpperCase();
+    }
+  }
   
   const ReportTable: React.FC<ReportTableProps> = ({ reportData, selectedColumns }) => {
+
     return (
         <table className='analytics-table'>
         <thead>
           <tr>
             {selectedColumns.map((column) => (
-              <th key={column}>{column}</th>
+              <th key={column}>{getHeading(column)}</th>
             ))}
           </tr>
         </thead>
