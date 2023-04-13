@@ -59,9 +59,9 @@ interface ReportTableProps {
                     : column === 'revenue'
                     ? `₹${row[column].toFixed(2)}`
                     : column === 'fill_rate'
-                    ? formatPercentage((row["responses"] / row["requests"]) * 100)
+                    ? row[column]
                     : column === 'ctr'
-                    ? formatPercentage((row['clicks'] / row['impressions']) * 100)
+                    ? row[column]
                     : row[column]}
                 </td>
               ))}
