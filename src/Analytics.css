@@ -15,6 +15,25 @@
     justify-content: center;
     margin-bottom: 20px;
   }
+
+  .analytics-input{
+    padding: 3px;
+    font-size: 20px;
+    border-width: 0px;
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-radius: 50px;
+    box-shadow: 0px 0px 5px rgba(66,66,66,.75);
+    text-shadow: -50px 0px 0px rgba(66,66,66,.0);
+  }
+
+  .analytics-input::placeholder{
+    text-align: center;
+    font-size: 18px;
+    opacity: 0.5;
+  }
   
   .analytics-date-range-picker {
     margin-right: 20px;
@@ -108,6 +127,10 @@
     margin-left: 10px;
   }
 
+  .analytics-icon{
+    width: 10%;
+  }
+
 
   .analytics-settings-modal-item input[type="checkbox"] {
     margin-right: 10px;
@@ -162,67 +185,10 @@
     }
     
     
-    
-    
-    
-    
-  
-
-
-
-
-
-/* 
-.analytics-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-  }
-  
-  .analytics-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .analytics-date-range-picker-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  
-  .analytics-date-range-picker {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-right: 2rem;
-  } */
-  
-  /* .analytics-date-range-picker-label {
-    margin-bottom: 0.5rem;
-  }
-  
-  .analytics-button {
-    background-color: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem;
-    margin-bottom: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-   */
-  .analytics-button:hover {
+    .analytics-button:hover {
     background-color: #1565c0;
   }
-  
-  /* .analytics-loading {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-  } */
-  
+
   .analytics-no-data {
     font-size: 1.5rem;
     font-weight: bold;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Analytics.css';
@@ -17,6 +17,10 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedColumns([ 'date' , 'app_id' , 'requests' , 'responses' , 'impressions' , 'clicks' , 'revenue']);
+  }, []);
 
   const fetchData = async () => {
     if (!startDate || !endDate) {
@@ -45,12 +49,10 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
 
   return (
     <div className='analytics-container'>
-      <h1 className='analytics-title'>Analytics</h1>
+      <img className="analytics-icon"  src="https://cdn.dribbble.com/users/189524/screenshots/2818547/media/d91628575a5382db2c4828ce539848f8.gif" alt='calendar icon' />
+
       <div className='analytics-date-range-picker-container'>
         <div className='analytics-date-range-picker'>
-          <label className='analytics-date-range-picker-label' htmlFor='start-date-picker'>
-            Start Date
-          </label>
           <DatePicker
             id='start-date-picker'
             selected={startDate}
@@ -58,13 +60,12 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
             selectsStart
             startDate={startDate}
             endDate={endDate}
+            className='analytics-input'
+            placeholderText='Start Date'
           />
         </div>
 
         <div className='analytics-date-range-picker'>
-          <label className='analytics-date-range-picker-label' htmlFor='end-date-picker'>
-            End Date
-          </label>
           <DatePicker
             id='end-date-picker'
             selected={endDate}
@@ -73,6 +74,8 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
             startDate={startDate}
             endDate={endDate}
             minDate={startDate}
+            className='analytics-input'
+            placeholderText='End Date'
           />
         </div>
       </div>
@@ -103,9 +106,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
       )}
       {!isLoading && reportData.length > 0 ? (
         <ReportTable reportData={reportData} selectedColumns={selectedColumns} />
-      ) : (
-        <div className='analytics-placeholder'>No data to display</div>
-      )}
+      ) : ( null)}
     </div>
   )
       };
