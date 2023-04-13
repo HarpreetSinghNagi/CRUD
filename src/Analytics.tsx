@@ -19,7 +19,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ apiUrl }) => {
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
 
   useEffect(() => {
-    setSelectedColumns([ 'date' , 'app_name' , 'requests' , 'responses' , 'impressions' , 'clicks' , 'revenue']);
+    setSelectedColumns([ 'date' , 'app_name' , 'requests' , 'responses' , 'impressions' , 'clicks' , 'revenue', 'fill_rate' , "ctr"]);
   }, []);
 
   const fetchData = async () => {

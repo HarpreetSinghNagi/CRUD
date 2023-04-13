@@ -25,7 +25,7 @@ interface ReportTableProps {
         return 'Clicks';
       case 'revenue':
         return 'Revenue';
-      case 'fillRate':
+      case 'fill_rate':
         return 'Fill Rate';
       case 'ctr':
         return 'CTR';
@@ -58,10 +58,10 @@ interface ReportTableProps {
                     ? formatNumber(row[column])
                     : column === 'revenue'
                     ? `₹${row[column].toFixed(2)}`
-                    : column === 'Fill Rate'
-                    ? formatPercentage((row['AD Response'] / row['AD Request']) * 100)
+                    : column === 'fill_rate'
+                    ? formatPercentage((row["responses"] / row["requests"]) * 100)
                     : column === 'ctr'
-                    ? formatPercentage((row['Clicks'] / row['Impression']) * 100)
+                    ? formatPercentage((row['clicks'] / row['impressions']) * 100)
                     : row[column]}
                 </td>
               ))}
