@@ -1,5 +1,5 @@
 import React from 'react';
-import {Analytics} from "./Analytics"
+import {Analytics} from "./Analytics/Analytics"
 
 
 function App() {

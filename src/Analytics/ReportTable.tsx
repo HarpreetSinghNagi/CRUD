@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReportData, formatDate, formatNumber, formatPercentage} from './api';
+import { ReportData, formatDate, formatNumber} from './api';
 
 interface ReportTableProps {
     reportData: ReportData[];
